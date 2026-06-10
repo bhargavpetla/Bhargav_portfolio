@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <meta name="description"
-        content="Bhargav Petla — Enterprise AI Strategist & Builder. I architect and ship production-grade agentic AI systems, RAG pipelines, and AI operating layers for BFSI, pharma, education, and professional services.">
+        content="Bhargav Petla — AI Solutioning Head, patented inventor of the Enterprise Brain (NSOffice.ai), and speaker on Agentic AI. I architect and ship production-grade agentic AI systems, RAG pipelines, and AI operating layers delivering 8x client ROI across BFSI, pharma, education, and professional services.">
     <meta name="keywords"
-        content="Bhargav Petla, AI Consultant, AI Architect, AI Builder, AI Transformation, Enterprise AI, Agentic Systems, RAG, LangGraph, CrewAI, OpenAI, Claude, COE Builder, AI OS, C-Level Advisory">
+        content="Bhargav Petla, AI Consultant, AI Architect, AI Solutioning Head, AI Builder, AI Transformation, Enterprise AI, Agentic Systems, RAG, LangGraph, CrewAI, OpenAI, Claude, COE Builder, AI OS, C-Level Advisory, NSOffice.ai, Enterprise Brain, Agentic AI Speaker">
     <meta name="author" content="Bhargav Petla">
 
     <meta property="og:type" content="website">
@@ -33,8 +33,8 @@
       "@context": "https://schema.org",
       "@type": "Person",
       "name": "Bhargav Petla",
-      "jobTitle": "AI Transformation Strategist",
-      "knowsAbout": ["AI Transformation", "Agentic AI Systems", "Enterprise AI Strategy", "AI Operating Models", "COE Building", "LLM Orchestration"],
+      "jobTitle": "AI Solutioning Head",
+      "knowsAbout": ["AI Transformation", "Agentic AI Systems", "Enterprise AI Strategy", "AI Operating Models", "COE Building", "LLM Orchestration", "Public Speaking on Agentic AI"],
       "alumniOf": [
         {"@type": "CollegeOrUniversity", "name": "SDA Bocconi School of Management"},
         {"@type": "CollegeOrUniversity", "name": "Indian Institute of Science Education & Research"}
@@ -151,6 +151,51 @@
         .case-card:hover .case-overlay {
             opacity: 1;
         }
+
+        /* Typewriter caret for the hero identity rotator */
+        .type-caret::after {
+            content: '_';
+            color: #3B82F6;
+            -webkit-text-stroke: 0;
+            animation: caret-blink 0.8s steps(1) infinite;
+        }
+        @keyframes caret-blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
+        /* Click-to-play YouTube facade */
+        .yt-lite { position: relative; }
+        .yt-lite .yt-play {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .yt-lite:hover .yt-play { transform: translate(-50%, -50%) scale(1.12); }
+        .yt-lite .yt-play::before {
+            content: '';
+            position: absolute;
+            inset: -10px;
+            border: 3px solid #FF2A2A;
+            animation: play-pulse 1.6s ease-out infinite;
+        }
+        @keyframes play-pulse {
+            0% { transform: scale(0.9); opacity: 0.9; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+        .yt-lite iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes rec-blink {
+            0%, 60% { opacity: 1; }
+            61%, 100% { opacity: 0.2; }
+        }
+        .rec-dot { animation: rec-blink 1.2s linear infinite; }
     </style>
 </head>
 
@@ -172,6 +217,7 @@
                 <a href="#expertise" class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover">/EXPERTISE</a>
                 <a href="#engagements" class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover">/ENGAGEMENTS</a>
                 <a href="#case-studies" class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover">/CASE STUDIES</a>
+                <a href="#speaking" class="px-3 py-1 font-mono font-bold text-sm hover:bg-black hover:text-white transition-colors cursor-hover">/SPEAKING</a>
                 <a href="#contact" class="px-3 py-1 font-mono font-bold text-sm bg-neo-yellow border border-black hover:bg-neo-blue hover:text-white transition-colors cursor-hover">CONNECT</a>
             </div>
         </div>
@@ -185,25 +231,34 @@
         <div class="absolute bottom-20 left-20 text-9xl opacity-5 font-black select-none pointer-events-none">OS</div>
 
         <div class="relative z-10 text-center max-w-5xl">
-            <div class="inline-block bg-neo-white border-2 border-black px-4 py-1 mb-6 shadow-hard rotate-[-2deg] reveal">
-                <span class="font-mono font-bold text-neo-blue bg-black px-2 mr-2">&#9670;</span>
-                <span class="font-mono font-bold">CURRENTLY: LEADING AI TRANSFORMATION</span>
+            <div class="flex flex-wrap justify-center gap-3 mb-6 reveal">
+                <div class="inline-block bg-neo-white border-2 border-black px-4 py-1 shadow-hard rotate-[-2deg]">
+                    <span class="font-mono font-bold text-neo-blue bg-black px-2 mr-2">&#9670;</span>
+                    <span class="font-mono font-bold">AI SOLUTIONING HEAD @ NETWORK SCIENCE</span>
+                </div>
+                <div class="inline-block bg-neo-black text-neo-green border-2 border-black px-4 py-1 shadow-hard rotate-[1.5deg]">
+                    <span class="font-mono font-bold text-xs md:text-base">PATENT FILED: ENTERPRISE BRAIN</span>
+                </div>
             </div>
 
             <h1 class="text-[11vw] md:text-[8vw] leading-[0.85] font-black uppercase tracking-tighter mb-6 reveal">
                 <span class="text-white" style="-webkit-text-stroke: 3px black;">AI</span><br>
-                STRATEGIST
+                <span id="heroRotator" class="type-caret">STRATEGIST</span>
             </h1>
 
             <p class="font-mono text-lg md:text-xl max-w-3xl mx-auto mb-10 bg-neo-yellow border-2 border-black p-5 shadow-hard reveal rotate-1">
-                I take ambiguous AI possibilities and convert them into <b>structured, governable, ROI-driven</b> enterprise systems.<br>
-                <span class="text-sm mt-2 block opacity-80">Enterprise AI Strategy &bull; Agentic Systems &bull; COE Building &bull; AI OS Design</span>
+                I take ambiguous AI possibilities and convert them into <b>structured, governable, ROI-driven</b> enterprise systems &mdash; <b>8x client ROI</b>, 40+ use cases shipped to production.<br>
+                <span class="text-sm mt-2 block opacity-80">Enterprise AI Strategy &bull; Agentic Systems &bull; COE Building &bull; Patented Enterprise Brain</span>
             </p>
 
             <div class="flex flex-col md:flex-row justify-center gap-6 reveal">
                 <a href="#case-studies"
                     class="bg-black text-white border-2 border-black px-10 py-5 text-xl font-bold shadow-hard hover:bg-neo-blue hover:text-white hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
                     VIEW CASE STUDIES
+                </a>
+                <a href="#speaking"
+                    class="bg-neo-pink text-white border-2 border-black px-10 py-5 text-xl font-bold shadow-hard hover:bg-neo-red hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover flex items-center justify-center gap-2">
+                    <i class="ri-play-circle-line"></i> WATCH ME SPEAK
                 </a>
                 <a href="Assets/Resume/Resume_Bhargav%20Petla.pdf" download
                     class="bg-neo-white text-black border-2 border-black px-10 py-5 text-xl font-bold shadow-hard hover:bg-neo-yellow hover:text-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover flex items-center justify-center gap-2">
@@ -225,6 +280,8 @@
                 <span class="mx-4">/// C-LEVEL ADVISORY</span>
                 <span class="mx-4">/// METRIC-BACKWARD DESIGN</span>
                 <span class="mx-4">/// PRODUCTION AI</span>
+                <span class="mx-4">/// PATENTED INVENTOR</span>
+                <span class="mx-4">/// 8X CLIENT ROI</span>
                 <span class="mx-4">/// AI TRANSFORMATION</span>
                 <span class="mx-4">/// AGENTIC SYSTEMS</span>
                 <span class="mx-4">/// ENTERPRISE STRATEGY</span>
@@ -233,6 +290,8 @@
                 <span class="mx-4">/// C-LEVEL ADVISORY</span>
                 <span class="mx-4">/// METRIC-BACKWARD DESIGN</span>
                 <span class="mx-4">/// PRODUCTION AI</span>
+                <span class="mx-4">/// PATENTED INVENTOR</span>
+                <span class="mx-4">/// 8X CLIENT ROI</span>
             </div>
         </div>
     </div>
@@ -259,13 +318,13 @@
                     I'm the person CIOs call when they need someone who can frame the problem in the boardroom, shape the solution with architects and engineers, and lead it through to production &mdash; without losing the business thread.
                 </p>
                 <p class="font-mono text-lg mb-8 text-gray-600 border-l-4 border-neo-blue pl-4">
-                    > I frame the problem, define the metrics, and own the solution blueprint &mdash; then <b>lead the architecture and delivery</b> through engineering teams.<br>
-                    > I author the BRDs, solution documents, system prompts, retrieval strategies, and governance guardrails.<br>
-                    > I've led delivery of agentic platforms, RAG pipelines, valuation engines, nudging systems, and AI persona frameworks.<br>
+                    > I invented the <b>Enterprise Brain (NSOffice.ai)</b> &mdash; a patented enterprise AI product unifying 100+ connectors into a System of Context.<br>
+                    > I frame the problem, define the metrics, and own the solution blueprint &mdash; then <b>lead the architecture and delivery</b> through a team of 10 engineers and consultants.<br>
+                    > I've led delivery of <b>40+ enterprise use cases at 8x client ROI</b> &mdash; agentic platforms, RAG pipelines, valuation engines, nudging systems, and AI persona frameworks.<br>
                     > I design for scale, not demos. Clarity, ownership, metrics &mdash; always.
                 </p>
 
-                <div class="flex flex-wrap gap-4">
+                <div class="flex flex-wrap gap-4 mb-6">
                     <div class="bg-neo-black text-white px-4 py-2 font-mono text-sm border-2 border-transparent">
                         LOCATION: MUMBAI, INDIA
                     </div>
@@ -276,6 +335,11 @@
                         STATUS: ADVISING
                     </div>
                 </div>
+
+                <a href="#speaking" class="inline-flex items-center gap-3 bg-neo-pink text-white border-2 border-black px-4 py-2 font-mono text-sm font-bold shadow-hard hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover w-fit">
+                    <span class="w-2 h-2 bg-neo-red rounded-full rec-dot"></span>
+                    PREFER VIDEO? WATCH ME BREAK DOWN AGENTIC AI <i class="ri-arrow-down-line"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -298,28 +362,28 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4" id="metrics-grid">
                 <div class="reveal border-2 border-neo-green/30 bg-neo-black p-5 text-center hover:border-neo-green transition-colors shadow-[4px_4px_0_rgba(51,255,87,0.15)] group">
-                    <div class="text-neo-green font-black text-4xl md:text-5xl tracking-tighter counter" data-target="120">0</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">AI Use Cases<br>Identified</div>
+                    <div class="text-neo-green font-black text-4xl md:text-5xl tracking-tighter counter" data-target="8" data-suffix="x">0</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Client ROI<br>Achieved</div>
                 </div>
                 <div class="reveal border-2 border-neo-blue/30 bg-neo-black p-5 text-center hover:border-neo-blue transition-colors shadow-[4px_4px_0_rgba(59,130,246,0.15)] group">
-                    <div class="text-neo-blue font-black text-4xl md:text-5xl tracking-tighter counter" data-target="35">0</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Production<br>AI Agents</div>
+                    <div class="text-neo-blue font-black text-4xl md:text-5xl tracking-tighter counter" data-target="40">0</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Use Cases<br>Delivered E2E</div>
                 </div>
                 <div class="reveal border-2 border-neo-yellow/30 bg-neo-black p-5 text-center hover:border-neo-yellow transition-colors shadow-[4px_4px_0_rgba(251,255,72,0.15)] group">
-                    <div class="text-neo-yellow font-black text-4xl md:text-5xl tracking-tighter counter" data-target="50">0</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Enterprise<br>KPIs Defined</div>
+                    <div class="text-neo-yellow font-black text-4xl md:text-5xl tracking-tighter counter" data-target="120">0</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">AI Use Cases<br>Identified</div>
                 </div>
                 <div class="reveal border-2 border-neo-purple/30 bg-neo-black p-5 text-center hover:border-neo-purple transition-colors shadow-[4px_4px_0_rgba(168,85,247,0.15)] group">
-                    <div class="text-neo-purple font-black text-4xl md:text-5xl tracking-tighter counter" data-target="150">0</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">AI Technologies<br>Evaluated</div>
+                    <div class="text-neo-purple font-black text-4xl md:text-5xl tracking-tighter counter" data-target="35">0</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Production<br>AI Agents</div>
                 </div>
                 <div class="reveal border-2 border-neo-orange/30 bg-neo-black p-5 text-center hover:border-neo-orange transition-colors shadow-[4px_4px_0_rgba(255,159,28,0.15)] group">
-                    <div class="text-neo-orange font-black text-4xl md:text-5xl tracking-tighter"><span class="counter" data-target="60">0</span>%</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Manual Process<br>Reduction</div>
+                    <div class="text-neo-orange font-black text-4xl md:text-5xl tracking-tighter counter" data-target="150">0</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">AI Technologies<br>Evaluated</div>
                 </div>
                 <div class="reveal border-2 border-neo-pink/30 bg-neo-black p-5 text-center hover:border-neo-pink transition-colors shadow-[4px_4px_0_rgba(255,112,166,0.15)] group">
-                    <div class="text-neo-pink font-black text-4xl md:text-5xl tracking-tighter counter" data-target="7">0</div>
-                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Enterprise<br>Transformations</div>
+                    <div class="text-neo-pink font-black text-4xl md:text-5xl tracking-tighter"><span class="counter" data-target="60" data-suffix="">0</span>%</div>
+                    <div class="text-[10px] font-mono text-gray-400 uppercase tracking-widest mt-2 group-hover:text-white transition-colors">Manual Process<br>Reduction</div>
                 </div>
             </div>
 
@@ -434,6 +498,7 @@
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">LangChain</span>
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">n8n</span>
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">MCP Tooling</span>
+                            <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Claude Code</span>
                         </div>
                     </div>
 
@@ -452,6 +517,8 @@
                         <div class="font-mono text-neo-purple text-xs font-bold uppercase mb-3 tracking-widest">Data, Delivery & Governance</div>
                         <div class="flex flex-wrap gap-2">
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Python Services</span>
+                            <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Node.js / React</span>
+                            <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">REST / MS Graph APIs</span>
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Power BI / Excel</span>
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Cloud (Azure/AWS/GCP)</span>
                             <span class="bg-white/5 border border-white/10 px-2 py-1 font-mono text-xs">Eval Harnesses</span>
@@ -475,17 +542,17 @@
                 <div class="absolute -left-[14px] top-2 w-6 h-6 bg-neo-green border-4 border-black"></div>
                 <div class="bg-white border-4 border-black p-6 shadow-hard hover:shadow-hard-xl transition-all">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b-2 border-dashed border-gray-300 pb-4 mb-4">
-                        <h3 class="text-2xl md:text-3xl font-black uppercase">AI-Fication Specialist & COE Lead</h3>
+                        <h3 class="text-2xl md:text-3xl font-black uppercase">AI Solutioning Head &mdash; Consulting</h3>
                         <span class="font-mono font-bold bg-neo-black text-white px-2 py-1 mt-2 md:mt-0">Aug 2025 &ndash; PRESENT</span>
                     </div>
                     <p class="font-mono text-xl mb-4 text-neo-green font-bold">@ NETWORK SCIENCE &mdash; NSOffice.ai</p>
                     <ul class="list-disc list-inside font-mono text-gray-700 space-y-2">
-                        <li>Conceived the <b>original vision, business model, and solution architecture</b> for NSOffice.ai &mdash; an enterprise AI productivity platform &mdash; and led its delivery through engineering</li>
+                        <li>Invented the <b>Enterprise Brain (NSOffice.ai)</b> &mdash; a <b>patented enterprise AI product</b> that builds a System of Context across all business systems, unifying <b>100+ connectors</b> to power multi-model chat, enterprise search, and autonomous agentic workflows</li>
+                        <li>Delivered <b>40+ enterprise customer use cases end-to-end</b> across IT, BFSI, and professional services, achieving <b>8x ROI for clients</b> &mdash; including an equity research agent, an ISO audit intelligence engine, and an AI-automated NOC</li>
+                        <li>Worked directly with <b>client CTOs and leadership</b> to rapid-prototype, architect, and deploy AI solutions mapped to their strategic priorities, while <b>leading a team of 10 engineers and consultants</b></li>
+                        <li>Evaluated and benchmarked <b>150+ AI and open-source technologies</b> against platform vision and capability requirements, driving performance optimization and informed <b>build-vs-buy decisions</b></li>
                         <li>Led the <b>AI Center of Excellence</b>, establishing governance frameworks, quality benchmarks, security, and compliance guardrails for every client engagement</li>
-                        <li>Led architecture and delivery of <b>agentic AI systems, RAG platforms, and enterprise AI workflows</b> across BFSI, pharma, education, and professional services &mdash; translating business requirements into production-grade AI</li>
-                        <li>Evaluated <b>150+ AI technologies</b> and set the enterprise stack across model providers (<b>OpenAI, Anthropic Claude, Google Gemini, Azure OpenAI, open-source LLMs</b>), orchestration (<b>LangGraph, CrewAI, n8n</b>), memory (<b>Mem0</b>), and retrieval (<b>vector DBs, hybrid search</b>)</li>
                         <li>Authored engagement artifacts end-to-end &mdash; <b>BRDs, solution blueprints, system prompts, evaluation harnesses, governance playbooks</b> &mdash; that engineering teams build from</li>
-                        <li>Mentored engineers and consultants, converting senior leadership asks into scoped, governed, metric-backed delivery plans</li>
                     </ul>
                 </div>
             </div>
@@ -536,6 +603,7 @@
         <div class="max-w-7xl mx-auto px-4 relative z-10">
             <div class="flex flex-col md:flex-row items-start gap-4 mb-12">
                 <div class="bg-neo-blue text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest">Signature Initiative</div>
+                <div class="bg-neo-pink text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest"><i class="ri-lightbulb-flash-line mr-1"></i>Patent Filed</div>
                 <div class="bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs text-neo-green">STATUS: LIVE</div>
             </div>
 
@@ -545,7 +613,7 @@
                         NS<span class="text-neo-blue">Office</span><span class="text-neo-green">.ai</span>
                     </h2>
                     <p class="font-mono text-xl text-gray-300 mb-8 leading-relaxed">
-                        A unified enterprise AI workspace I conceived and architected &mdash; where employees interact with multiple AI models, search across all internal systems, and trigger domain-specific agents to execute workflows end-to-end.
+                        The <b class="text-white">Enterprise Brain</b> &mdash; a patented enterprise AI product I invented &mdash; builds a <b class="text-white">System of Context</b> across all business systems, unifying <b class="text-neo-green">100+ connectors</b> to power multi-model chat, enterprise search, and autonomous agentic workflows end-to-end.
                     </p>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3">
@@ -563,7 +631,7 @@
                             </div>
                             <div>
                                 <div class="font-bold text-white">Universal Enterprise Search</div>
-                                <div class="font-mono text-sm text-gray-400">Search across all internal systems and documents from a single bar</div>
+                                <div class="font-mono text-sm text-gray-400">Search across 100+ connected systems and documents from a single bar</div>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
@@ -616,6 +684,25 @@
                                 </div>
                             </div>
                             <div class="text-neo-green mt-4">$ _<span class="animate-pulse">|</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Live demo: AI-Automated NOC built on this platform -->
+                    <div class="mt-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-2.5 h-2.5 bg-neo-red rounded-full rec-dot"></span>
+                            <span class="font-mono text-xs font-bold text-white uppercase tracking-widest">See it in action &mdash; Agentic AI running a live NOC</span>
+                        </div>
+                        <div class="yt-lite aspect-video bg-black border-4 border-white/20 shadow-hard-lg overflow-hidden cursor-hover group"
+                            data-yt="uxORgpxKnn0" data-yt-title="Agentic AI - Network Operations Monitoring">
+                            <img src="https://i.ytimg.com/vi/uxORgpxKnn0/maxresdefault.jpg"
+                                onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/uxORgpxKnn0/hqdefault.jpg';"
+                                alt="Agentic AI - Network Operations Monitoring demo by Bhargav Petla"
+                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" loading="lazy">
+                            <button class="yt-play w-16 h-16 bg-neo-red text-white border-2 border-black flex items-center justify-center text-3xl" aria-label="Play video">
+                                <i class="ri-play-fill"></i>
+                            </button>
+                            <span class="absolute bottom-2 left-2 bg-black/80 text-neo-green font-mono text-[10px] px-2 py-1 border border-white/20">DEMO: AI-AUTOMATED NOC</span>
                         </div>
                     </div>
                 </div>
@@ -907,6 +994,89 @@
         </div>
     </section>
 
+    <!-- ============ SPEAKING / ON AIR ============ -->
+    <section id="speaking" class="py-24 px-4 border-t-4 border-black bg-neo-white relative overflow-hidden">
+        <div class="absolute top-16 left-[6%] w-14 h-14 bg-neo-pink border-4 border-black shadow-hard float-anim hidden lg:block"></div>
+        <div class="absolute bottom-24 right-[8%] w-20 h-20 bg-neo-blue rounded-full border-4 border-black shadow-hard hidden lg:block animate-pulse"></div>
+        <div class="absolute top-10 right-16 text-9xl opacity-5 font-black select-none pointer-events-none">REC</div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex items-center justify-center gap-3 mb-4 reveal">
+                <span class="w-3 h-3 bg-neo-red rounded-full rec-dot"></span>
+                <span class="font-mono font-bold text-sm bg-black text-white px-3 py-1 uppercase tracking-widest">On_Air // Speaker Sessions</span>
+            </div>
+            <h2 class="text-5xl md:text-8xl font-black uppercase mb-4 tracking-tighter text-center reveal">
+                Watch Me<span class="text-neo-red">_Speak</span>
+            </h2>
+            <p class="text-center font-mono text-gray-500 mb-16 max-w-2xl mx-auto reveal">
+                // Don't take my word for it &mdash; watch me explain agentic AI to live audiences and demo production systems in real time.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <!-- Talk 1: Agentic AI Webinar -->
+                <article class="reveal group bg-white border-4 border-black shadow-hard hover:shadow-hard-xl transition-all flex flex-col">
+                    <div class="yt-lite aspect-video bg-black border-b-4 border-black overflow-hidden cursor-hover"
+                        data-yt="EpGnWGApK_s" data-yt-title="Webinar | Agentic AI: The Rise of Autonomous Intelligence">
+                        <img src="https://i.ytimg.com/vi/EpGnWGApK_s/maxresdefault.jpg"
+                            onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/EpGnWGApK_s/hqdefault.jpg';"
+                            alt="Bhargav Petla speaking at the Agentic AI webinar"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <button class="yt-play w-20 h-20 bg-neo-red text-white border-2 border-black flex items-center justify-center text-4xl" aria-label="Play video">
+                            <i class="ri-play-fill"></i>
+                        </button>
+                        <span class="absolute top-3 left-3 bg-neo-red text-white font-mono text-xs font-bold px-2 py-1 border-2 border-black uppercase">&#9210; Webinar</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black uppercase mb-2 group-hover:text-neo-red transition-colors">Agentic AI: The Rise of Autonomous Intelligence</h3>
+                        <p class="font-mono text-sm text-gray-600 mb-4 flex-grow">
+                            A deep-dive webinar where I unpack how autonomous agents are rewiring the enterprise &mdash; from single-task copilots to governed, multi-agent operating systems that execute real business workflows.
+                        </p>
+                        <div class="flex flex-wrap gap-1 font-mono text-[10px] font-bold">
+                            <span class="bg-gray-100 px-2 py-1">Agentic Architectures</span>
+                            <span class="bg-gray-100 px-2 py-1">A2A Workflows</span>
+                            <span class="bg-gray-100 px-2 py-1">Enterprise Adoption</span>
+                            <span class="bg-gray-100 px-2 py-1">Governance</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Talk 2: NOC Live Demo -->
+                <article class="reveal group bg-white border-4 border-black shadow-hard hover:shadow-hard-xl transition-all flex flex-col">
+                    <div class="yt-lite aspect-video bg-black border-b-4 border-black overflow-hidden cursor-hover"
+                        data-yt="uxORgpxKnn0" data-yt-title="Agentic AI - Network Operations Monitoring">
+                        <img src="https://i.ytimg.com/vi/uxORgpxKnn0/maxresdefault.jpg"
+                            onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/uxORgpxKnn0/hqdefault.jpg';"
+                            alt="Bhargav Petla demoing Agentic AI for network operations monitoring"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+                        <button class="yt-play w-20 h-20 bg-neo-blue text-white border-2 border-black flex items-center justify-center text-4xl" aria-label="Play video">
+                            <i class="ri-play-fill"></i>
+                        </button>
+                        <span class="absolute top-3 left-3 bg-neo-blue text-white font-mono text-xs font-bold px-2 py-1 border-2 border-black uppercase">&#9210; Live Demo</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-black uppercase mb-2 group-hover:text-neo-blue transition-colors">Agentic AI &mdash; Network Operations Monitoring</h3>
+                        <p class="font-mono text-sm text-gray-600 mb-4 flex-grow">
+                            A walkthrough of the AI-automated NOC in action &mdash; autonomous agents detecting, triaging, and resolving network incidents end-to-end. One of the 40+ production use cases delivered at 8x client ROI.
+                        </p>
+                        <div class="flex flex-wrap gap-1 font-mono text-[10px] font-bold">
+                            <span class="bg-gray-100 px-2 py-1">AI-Automated NOC</span>
+                            <span class="bg-gray-100 px-2 py-1">Autonomous Triage</span>
+                            <span class="bg-gray-100 px-2 py-1">Production System</span>
+                            <span class="bg-gray-100 px-2 py-1">Live Walkthrough</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="text-center mt-12 reveal">
+                <a href="#contact"
+                    class="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-8 py-4 text-lg font-bold shadow-hard hover:bg-neo-red hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
+                    <i class="ri-mic-line"></i> INVITE ME TO SPEAK
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- ============ AI PHILOSOPHY ============ -->
     <section class="py-24 bg-neo-black text-white border-y-4 border-black overflow-hidden relative">
         <div class="absolute inset-0 opacity-10"
@@ -977,7 +1147,7 @@
                 <div class="space-y-6">
                     <div class="bg-white border-4 border-black p-6 shadow-hard hover:shadow-hard-xl transition-all">
                         <div class="flex justify-between items-start mb-2">
-                            <h4 class="text-xl font-black uppercase">MBA &mdash; Strategy</h4>
+                            <h4 class="text-xl font-black uppercase">MBA &mdash; Strategy &amp; Analytics</h4>
                             <span class="font-mono text-sm bg-neo-blue text-white px-2 py-1">88.36%</span>
                         </div>
                         <p class="font-mono text-neo-blue font-bold mb-1">SDA Bocconi School of Management, Italy</p>
@@ -1015,6 +1185,15 @@
             <div class="reveal">
                 <h3 class="text-3xl font-black uppercase mb-8 border-b-4 border-black pb-4">Recognition</h3>
                 <div class="space-y-4">
+                    <div class="bg-neo-black border-4 border-black p-5 shadow-hard flex items-center gap-4 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                        <div class="w-14 h-14 bg-neo-green text-black flex items-center justify-center border-2 border-black text-2xl flex-shrink-0">
+                            <i class="ri-lightbulb-flash-line"></i>
+                        </div>
+                        <div>
+                            <div class="font-black text-lg uppercase text-white">Patent Inventor</div>
+                            <div class="font-mono text-sm text-neo-green">NSOffice.ai &mdash; Enterprise Brain, filed by Network Science Ltd.</div>
+                        </div>
+                    </div>
                     <div class="bg-neo-pink border-4 border-black p-5 shadow-hard flex items-center gap-4 hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
                         <div class="w-14 h-14 bg-black text-neo-pink flex items-center justify-center border-2 border-black text-2xl flex-shrink-0">
                             <i class="ri-sparkling-2-line"></i>
@@ -1179,7 +1358,7 @@
             <div class="col-span-1 md:col-span-2">
                 <h2 class="text-4xl font-black mb-6">BHARGAV<span class="text-neo-blue">.ai</span></h2>
                 <p class="text-gray-400 max-w-sm">
-                    AI Transformation Strategist. Turning enterprise AI ambiguity into structured, governed, ROI-driven operating systems.
+                    AI Solutioning Head. Patented inventor of the Enterprise Brain. Turning enterprise AI ambiguity into structured, governed, ROI-driven operating systems.
                 </p>
                 <p class="text-gray-500 text-sm mt-4">Mumbai, India &bull; Reach: India, Europe, Middle East</p>
             </div>
@@ -1191,6 +1370,7 @@
                     <li><a href="#about" class="hover:text-white hover:underline decoration-neo-yellow decoration-2 cursor-hover">About</a></li>
                     <li><a href="#expertise" class="hover:text-white hover:underline decoration-neo-yellow decoration-2 cursor-hover">Expertise</a></li>
                     <li><a href="#case-studies" class="hover:text-white hover:underline decoration-neo-yellow decoration-2 cursor-hover">Case Studies</a></li>
+                    <li><a href="#speaking" class="hover:text-white hover:underline decoration-neo-yellow decoration-2 cursor-hover">Speaking</a></li>
                     <li><a href="#contact" class="hover:text-white hover:underline decoration-neo-yellow decoration-2 cursor-hover">Connect</a></li>
                 </ul>
             </div>
@@ -1298,7 +1478,7 @@
             });
         });
 
-        // Scroll Reveal
+        // Scroll Reveal (staggered: siblings revealing together cascade in)
         const revealElements = document.querySelectorAll('.reveal');
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -1307,7 +1487,54 @@
                 }
             });
         }, { threshold: 0.1 });
-        revealElements.forEach(el => revealObserver.observe(el));
+        revealElements.forEach(el => {
+            const siblings = el.parentElement ? Array.from(el.parentElement.children).filter(c => c.classList.contains('reveal')) : [el];
+            const idx = siblings.indexOf(el);
+            if (idx > 0) el.style.transitionDelay = (Math.min(idx, 5) * 90) + 'ms';
+            revealObserver.observe(el);
+        });
+
+        // Hero identity rotator (typewriter)
+        const heroRotator = document.getElementById('heroRotator');
+        if (heroRotator) {
+            const words = ['STRATEGIST', 'INVENTOR', 'SPEAKER', 'BUILDER'];
+            let wordIdx = 0, charIdx = words[0].length, deleting = false;
+            const tick = () => {
+                const word = words[wordIdx];
+                if (!deleting && charIdx < word.length) {
+                    charIdx++;
+                } else if (!deleting) {
+                    deleting = true;
+                    setTimeout(tick, 2200);
+                    return;
+                } else if (charIdx > 0) {
+                    charIdx--;
+                } else {
+                    deleting = false;
+                    wordIdx = (wordIdx + 1) % words.length;
+                }
+                heroRotator.textContent = word.substring(0, charIdx) || ' ';
+                setTimeout(tick, deleting ? 55 : 110);
+            };
+            setTimeout(tick, 2200);
+        }
+
+        // Click-to-play YouTube facades (loads the iframe only on demand)
+        document.querySelectorAll('.yt-lite').forEach(el => {
+            el.addEventListener('click', () => {
+                const id = el.dataset.yt;
+                if (!id || el.dataset.loaded) return;
+                el.dataset.loaded = '1';
+                const iframe = document.createElement('iframe');
+                iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0';
+                iframe.title = el.dataset.ytTitle || 'YouTube video';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                iframe.allowFullscreen = true;
+                iframe.style.border = '0';
+                el.innerHTML = '';
+                el.appendChild(iframe);
+            });
+        });
 
         // Scroll Progress Bar
         window.addEventListener('scroll', () => {
@@ -1322,6 +1549,7 @@
             const counters = document.querySelectorAll('.counter');
             counters.forEach(counter => {
                 const target = parseInt(counter.getAttribute('data-target'));
+                const suffix = counter.dataset.suffix !== undefined ? counter.dataset.suffix : '+';
                 const duration = 2000;
                 const step = target / (duration / 16);
                 let current = 0;
@@ -1329,10 +1557,10 @@
                 const updateCounter = () => {
                     current += step;
                     if (current < target) {
-                        counter.textContent = Math.floor(current) + '+';
+                        counter.textContent = Math.floor(current) + suffix;
                         requestAnimationFrame(updateCounter);
                     } else {
-                        counter.textContent = target + '+';
+                        counter.textContent = target + suffix;
                     }
                 };
                 updateCounter();
