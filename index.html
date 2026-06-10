@@ -197,62 +197,100 @@
         }
         .rec-dot { animation: rec-blink 1.2s linear infinite; }
 
-        /* 3D Book */
-        .book-3d-scene {
-            perspective: 1200px;
-            width: 220px;
-            height: 320px;
+        /* ── 3D Book ── */
+        .book-wrap {
+            perspective: 1400px;
+            display: inline-block;
         }
-        .book-3d {
-            width: 100%;
-            height: 100%;
+        /* Outer shell: idle float, hover = slow 360 spin to reveal back then return */
+        .book-outer {
             position: relative;
-            transform-style: preserve-3d;
-            transform: rotateY(-30deg) rotateX(5deg);
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            animation: book-hover 5s ease-in-out infinite;
-        }
-        .book-3d-scene:hover .book-3d {
-            transform: rotateY(-15deg) rotateX(3deg);
-            animation: none;
-        }
-        @keyframes book-hover {
-            0%, 100% { transform: rotateY(-30deg) rotateX(5deg) translateY(0); }
-            50% { transform: rotateY(-25deg) rotateX(4deg) translateY(-12px); }
-        }
-        .book-face {
-            position: absolute;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .book-front {
             width: 220px;
             height: 320px;
+            transform-style: preserve-3d;
+            animation: book-idle 6s ease-in-out infinite;
+            transition: none;
+            cursor: pointer;
+        }
+        @keyframes book-idle {
+            0%,100% { transform: rotateY(-28deg) rotateX(6deg) translateY(0px); }
+            50%      { transform: rotateY(-22deg) rotateX(4deg) translateY(-14px); }
+        }
+        /* On hover: open the cover (rotate around left edge) */
+        .book-wrap:hover .book-outer {
+            animation: book-open 3.2s ease-in-out forwards;
+        }
+        @keyframes book-open {
+            0%   { transform: rotateY(-28deg) rotateX(6deg); }
+            30%  { transform: rotateY(20deg) rotateX(3deg); }
+            55%  { transform: rotateY(180deg) rotateX(0deg); }   /* full back reveal */
+            80%  { transform: rotateY(180deg) rotateX(0deg); }
+            100% { transform: rotateY(-28deg) rotateX(6deg); }   /* return */
+        }
+
+        /* Faces */
+        .book-face { position: absolute; backface-visibility: hidden; }
+
+        .book-front {
+            width: 220px; height: 320px;
             transform: translateZ(18px);
             overflow: hidden;
-            box-shadow: 6px 6px 40px rgba(0,0,0,0.8), 0 0 0 2px rgba(168,85,247,0.3);
+            box-shadow: 8px 8px 40px rgba(0,0,0,0.9), 0 0 0 2px rgba(168,85,247,0.4);
         }
         .book-spine {
-            width: 36px;
-            height: 320px;
+            width: 36px; height: 320px;
             left: -18px;
             transform: rotateY(-90deg) translateZ(18px);
-            background: #1a1a2e;
+            background: #111122;
             overflow: hidden;
         }
         .book-back {
-            width: 220px;
-            height: 320px;
+            width: 220px; height: 320px;
+            /* faces away from viewer by default; shown when book flips ~180° */
             transform: translateZ(-18px) rotateY(180deg);
-            background: #0d0d1a;
+            backface-visibility: visible;   /* we want it visible from behind */
+            overflow: hidden;
         }
         .book-pages {
-            width: 32px;
-            height: 314px;
-            top: 3px;
-            right: -16px;
+            width: 32px; height: 314px;
+            top: 3px; right: -16px;
             transform: rotateY(90deg) translateZ(110px);
-            background: repeating-linear-gradient(to bottom, #f0ece0 0px, #e8e4d8 1px, #f0ece0 2px);
-            box-shadow: inset -3px 0 8px rgba(0,0,0,0.3);
+            background: repeating-linear-gradient(
+                to bottom,
+                #f5f1e8 0px, #ede9df 1px, #f5f1e8 2px
+            );
+            box-shadow: inset -4px 0 10px rgba(0,0,0,0.35);
+        }
+
+        /* Page-flip overlay: a single leaf that animates across the front */
+        .book-page-flip {
+            position: absolute;
+            width: 220px; height: 320px;
+            transform-origin: left center;
+            transform: translateZ(19px) rotateY(0deg);
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+        .book-page-flip .flip-front {
+            position: absolute; inset: 0;
+            background: linear-gradient(to right, #ede9df, #f5f1e8);
+            backface-visibility: hidden;
+        }
+        .book-page-flip .flip-back {
+            position: absolute; inset: 0;
+            background: linear-gradient(to left, #e8e4dc, #f0ece4);
+            transform: rotateY(180deg);
+            backface-visibility: hidden;
+        }
+        .book-wrap:hover .book-page-flip {
+            animation: page-flip 3.2s ease-in-out forwards;
+        }
+        @keyframes page-flip {
+            0%   { transform: translateZ(19px) rotateY(0deg);   }
+            18%  { transform: translateZ(19px) rotateY(-90deg);  }
+            36%  { transform: translateZ(19px) rotateY(-178deg); }
+            80%  { transform: translateZ(19px) rotateY(-178deg); }
+            100% { transform: translateZ(19px) rotateY(0deg);   }
         }
     </style>
 </head>
@@ -559,73 +597,6 @@
         </div>
     </section>
 
-    <!-- ============ THE BOOK ============ -->
-    <section id="book" class="py-24 px-4 border-y-4 border-black bg-neo-black text-white relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;"></div>
-        <div class="absolute top-10 right-16 text-9xl opacity-5 font-black select-none pointer-events-none">FIVE</div>
-
-        <div class="max-w-7xl mx-auto relative z-10">
-            <div class="flex flex-wrap items-center gap-3 mb-4 reveal">
-                <span class="bg-neo-purple text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest">Published Author</span>
-                <span class="bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs text-neo-yellow">FICTION / HORROR &bull; FIVE STORIES</span>
-            </div>
-            <h2 class="text-5xl md:text-8xl font-black uppercase mb-4 tracking-tighter reveal">
-                The<span class="text-neo-purple">_Book</span>
-            </h2>
-            <p class="font-mono text-gray-400 mb-16 max-w-2xl reveal">// Because the best strategists are also the best storytellers.</p>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <!-- 3D Book -->
-                <div class="reveal flex justify-center py-8">
-                    <a href="https://store.pothi.com/book/bhargav-petla-unknown/" target="_blank" rel="noopener" class="book-3d-scene cursor-hover" aria-label="UNKNOWN by Bhargav Petla on Pothi">
-                        <div class="book-3d">
-                            <div class="book-face book-front">
-                                <img src="Assets/images/book_cover_front.png" alt="UNKNOWN — and other stories from the quiet hours, by Bhargav Petla" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                            <div class="book-face book-spine">
-                                <img src="Assets/images/book_cover_spine.png" alt="" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                            <div class="book-face book-back">
-                                <div class="w-full h-full bg-[#0d0d1a] flex items-end p-4">
-                                    <span class="font-mono text-[10px] text-gray-600">BHARGAV PETLA &bull; FIVE STORIES</span>
-                                </div>
-                            </div>
-                            <div class="book-face book-pages"></div>
-                        </div>
-                    </a>
-                </div>
-
-                <!-- Book Info -->
-                <div class="reveal space-y-6">
-                    <div>
-                        <h3 class="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-2">UNKNOWN</h3>
-                        <p class="font-mono text-neo-purple text-sm font-bold uppercase tracking-widest">and other stories from the quiet hours &bull; based on true events</p>
-                    </div>
-                    <p class="font-mono text-gray-300 leading-relaxed text-lg">
-                        Five descents into the oldest and most human horror there is &mdash; what the dark does to a mind that has been left alone too long. Written in the long silence of the pandemic, one story at a time, as messages thrown into the dark to see if anyone was still there.
-                    </p>
-                    <blockquote class="border-l-4 border-neo-purple pl-4 font-mono text-gray-400 italic">
-                        "Five stories. One voice. It has been waiting for you to be alone."
-                    </blockquote>
-                    <div class="flex flex-wrap gap-2 font-mono text-xs">
-                        <span class="bg-white/5 border border-white/10 px-3 py-1">Psychological Horror</span>
-                        <span class="bg-white/5 border border-white/10 px-3 py-1">Based on True Events</span>
-                        <span class="bg-white/5 border border-white/10 px-3 py-1">Pandemic Writing</span>
-                        <span class="bg-white/5 border border-white/10 px-3 py-1">Debut Collection</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
-                        <a href="https://store.pothi.com/book/bhargav-petla-unknown/" target="_blank" rel="noopener"
-                            class="inline-flex items-center justify-center gap-2 bg-neo-purple text-white border-2 border-white/20 px-8 py-4 font-bold shadow-hard hover:bg-white hover:text-neo-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
-                            <i class="ri-book-open-line text-xl"></i> GET THE BOOK
-                        </a>
-                    </div>
-                    <p class="font-mono text-xs text-gray-600 border-t border-white/10 pt-4">
-                        // Strategy by day, storytelling by night. The same skills that run enterprise AI programs &mdash; clarity, structure, narrative &mdash; built this book.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- ============ SPEAKING / ON AIR ============ -->
     <section id="speaking" class="py-24 px-4 border-t-4 border-black bg-neo-white relative overflow-hidden">
         <div class="absolute top-16 left-[6%] w-14 h-14 bg-neo-pink border-4 border-black shadow-hard float-anim hidden lg:block"></div>
@@ -705,6 +676,122 @@
                     class="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-8 py-4 text-lg font-bold shadow-hard hover:bg-neo-red hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
                     <i class="ri-mic-line"></i> INVITE ME TO SPEAK
                 </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SIGNATURE INITIATIVE: NSOffice.ai ============ -->
+    <section class="py-20 bg-neo-navy text-white border-y-4 border-black relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10"
+            style="background-image: linear-gradient(rgba(59,130,246,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.3) 1px, transparent 1px); background-size: 40px 40px;">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-start gap-4 mb-12">
+                <div class="bg-neo-blue text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest">Signature Initiative</div>
+                <div class="bg-neo-pink text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest"><i class="ri-lightbulb-flash-line mr-1"></i>Patent Filed</div>
+                <div class="bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs text-neo-green">STATUS: LIVE</div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">
+                        NS<span class="text-neo-blue">Office</span><span class="text-neo-green">.ai</span>
+                    </h2>
+                    <p class="font-mono text-xl text-gray-300 mb-8 leading-relaxed">
+                        The <b class="text-white">Enterprise Brain</b> &mdash; a patented enterprise AI product I invented &mdash; builds a <b class="text-white">System of Context</b> across all business systems, unifying <b class="text-neo-green">100+ connectors</b> to power multi-model chat, enterprise search, and autonomous agentic workflows end-to-end.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-neo-blue flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
+                                <i class="ri-brain-line text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white">Multi-Model AI Chat</div>
+                                <div class="font-mono text-sm text-gray-400">Employees interact with multiple AI models in one workspace</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-neo-green flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
+                                <i class="ri-search-line text-black"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white">Universal Enterprise Search</div>
+                                <div class="font-mono text-sm text-gray-400">Search across 100+ connected systems and documents from a single bar</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-neo-yellow flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
+                                <i class="ri-robot-2-line text-black"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white">Agentic Workflow Execution</div>
+                                <div class="font-mono text-sm text-gray-400">Domain-specific AI agents execute end-to-end business workflows</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-neo-purple flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
+                                <i class="ri-shield-check-line text-white"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold text-white">Native Governance & Security</div>
+                                <div class="font-mono text-sm text-gray-400">Security, governance, and observability built into the core platform</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal">
+                    <div class="bg-black border-4 border-white/20 p-6 shadow-hard-lg relative">
+                        <div class="flex gap-2 mb-4">
+                            <div class="h-3 w-3 bg-red-500 rounded-full border border-black"></div>
+                            <div class="h-3 w-3 bg-yellow-500 rounded-full border border-black"></div>
+                            <div class="h-3 w-3 bg-green-500 rounded-full border border-black"></div>
+                            <span class="font-mono text-xs text-gray-500 ml-4">nsoffice.ai &mdash; architecture</span>
+                        </div>
+                        <div class="font-mono text-sm space-y-3 text-gray-300">
+                            <div class="text-neo-green">$ cat platform_architecture.yml</div>
+                            <div class="pl-4 border-l-2 border-neo-blue/30">
+                                <div class="text-neo-blue">layers:</div>
+                                <div class="pl-4 text-gray-400">
+                                    <div>- <span class="text-white">presentation:</span> Multi-model chat UI</div>
+                                    <div>- <span class="text-white">intelligence:</span> LLM routing & orchestration</div>
+                                    <div>- <span class="text-white">retrieval:</span> RAG + vector DB + enterprise connectors</div>
+                                    <div>- <span class="text-white">agents:</span> Domain-specific agentic workflows</div>
+                                    <div>- <span class="text-white">memory:</span> Contextual memory architecture</div>
+                                    <div>- <span class="text-white">governance:</span> Access control, audit, compliance</div>
+                                </div>
+                            </div>
+                            <div class="pl-4 border-l-2 border-neo-green/30 mt-4">
+                                <div class="text-neo-green">frameworks_evaluated:</div>
+                                <div class="pl-4 text-gray-400">
+                                    <div>Mem0 &bull; CrewAI &bull; LangGraph</div>
+                                    <div>+ <span class="text-neo-yellow">150 other technologies</span></div>
+                                </div>
+                            </div>
+                            <div class="text-neo-green mt-4">$ _<span class="animate-pulse">|</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Live demo: AI-Automated NOC built on this platform -->
+                    <div class="mt-8">
+                        <div class="flex items-center gap-2 mb-3">
+                            <span class="w-2.5 h-2.5 bg-neo-red rounded-full rec-dot"></span>
+                            <span class="font-mono text-xs font-bold text-white uppercase tracking-widest">See it in action &mdash; Agentic AI running a live NOC</span>
+                        </div>
+                        <div class="yt-lite aspect-video bg-black border-4 border-white/20 shadow-hard-lg overflow-hidden cursor-hover group"
+                            data-yt="uxORgpxKnn0" data-yt-title="Agentic AI - Network Operations Monitoring">
+                            <img src="https://i.ytimg.com/vi/uxORgpxKnn0/maxresdefault.jpg"
+                                onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/uxORgpxKnn0/hqdefault.jpg';"
+                                alt="Agentic AI - Network Operations Monitoring demo by Bhargav Petla"
+                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" loading="lazy">
+                            <button class="yt-play w-16 h-16 bg-neo-red text-white border-2 border-black flex items-center justify-center text-3xl" aria-label="Play video">
+                                <i class="ri-play-fill"></i>
+                            </button>
+                            <span class="absolute bottom-2 left-2 bg-black/80 text-neo-green font-mono text-[10px] px-2 py-1 border border-white/20">DEMO: AI-AUTOMATED NOC</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -993,122 +1080,6 @@
         </div>
     </section>
 
-    <!-- ============ SIGNATURE INITIATIVE: NSOffice.ai ============ -->
-    <section class="py-20 bg-neo-navy text-white border-y-4 border-black relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10"
-            style="background-image: linear-gradient(rgba(59,130,246,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.3) 1px, transparent 1px); background-size: 40px 40px;">
-        </div>
-
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
-            <div class="flex flex-col md:flex-row items-start gap-4 mb-12">
-                <div class="bg-neo-blue text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest">Signature Initiative</div>
-                <div class="bg-neo-pink text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest"><i class="ri-lightbulb-flash-line mr-1"></i>Patent Filed</div>
-                <div class="bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs text-neo-green">STATUS: LIVE</div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="reveal">
-                    <h2 class="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">
-                        NS<span class="text-neo-blue">Office</span><span class="text-neo-green">.ai</span>
-                    </h2>
-                    <p class="font-mono text-xl text-gray-300 mb-8 leading-relaxed">
-                        The <b class="text-white">Enterprise Brain</b> &mdash; a patented enterprise AI product I invented &mdash; builds a <b class="text-white">System of Context</b> across all business systems, unifying <b class="text-neo-green">100+ connectors</b> to power multi-model chat, enterprise search, and autonomous agentic workflows end-to-end.
-                    </p>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-neo-blue flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
-                                <i class="ri-brain-line text-white"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Multi-Model AI Chat</div>
-                                <div class="font-mono text-sm text-gray-400">Employees interact with multiple AI models in one workspace</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-neo-green flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
-                                <i class="ri-search-line text-black"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Universal Enterprise Search</div>
-                                <div class="font-mono text-sm text-gray-400">Search across 100+ connected systems and documents from a single bar</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-neo-yellow flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
-                                <i class="ri-robot-2-line text-black"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Agentic Workflow Execution</div>
-                                <div class="font-mono text-sm text-gray-400">Domain-specific AI agents execute end-to-end business workflows</div>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-neo-purple flex items-center justify-center border border-white/20 flex-shrink-0 mt-1">
-                                <i class="ri-shield-check-line text-white"></i>
-                            </div>
-                            <div>
-                                <div class="font-bold text-white">Native Governance & Security</div>
-                                <div class="font-mono text-sm text-gray-400">Security, governance, and observability built into the core platform</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="reveal">
-                    <div class="bg-black border-4 border-white/20 p-6 shadow-hard-lg relative">
-                        <div class="flex gap-2 mb-4">
-                            <div class="h-3 w-3 bg-red-500 rounded-full border border-black"></div>
-                            <div class="h-3 w-3 bg-yellow-500 rounded-full border border-black"></div>
-                            <div class="h-3 w-3 bg-green-500 rounded-full border border-black"></div>
-                            <span class="font-mono text-xs text-gray-500 ml-4">nsoffice.ai &mdash; architecture</span>
-                        </div>
-                        <div class="font-mono text-sm space-y-3 text-gray-300">
-                            <div class="text-neo-green">$ cat platform_architecture.yml</div>
-                            <div class="pl-4 border-l-2 border-neo-blue/30">
-                                <div class="text-neo-blue">layers:</div>
-                                <div class="pl-4 text-gray-400">
-                                    <div>- <span class="text-white">presentation:</span> Multi-model chat UI</div>
-                                    <div>- <span class="text-white">intelligence:</span> LLM routing & orchestration</div>
-                                    <div>- <span class="text-white">retrieval:</span> RAG + vector DB + enterprise connectors</div>
-                                    <div>- <span class="text-white">agents:</span> Domain-specific agentic workflows</div>
-                                    <div>- <span class="text-white">memory:</span> Contextual memory architecture</div>
-                                    <div>- <span class="text-white">governance:</span> Access control, audit, compliance</div>
-                                </div>
-                            </div>
-                            <div class="pl-4 border-l-2 border-neo-green/30 mt-4">
-                                <div class="text-neo-green">frameworks_evaluated:</div>
-                                <div class="pl-4 text-gray-400">
-                                    <div>Mem0 &bull; CrewAI &bull; LangGraph</div>
-                                    <div>+ <span class="text-neo-yellow">150 other technologies</span></div>
-                                </div>
-                            </div>
-                            <div class="text-neo-green mt-4">$ _<span class="animate-pulse">|</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Live demo: AI-Automated NOC built on this platform -->
-                    <div class="mt-8">
-                        <div class="flex items-center gap-2 mb-3">
-                            <span class="w-2.5 h-2.5 bg-neo-red rounded-full rec-dot"></span>
-                            <span class="font-mono text-xs font-bold text-white uppercase tracking-widest">See it in action &mdash; Agentic AI running a live NOC</span>
-                        </div>
-                        <div class="yt-lite aspect-video bg-black border-4 border-white/20 shadow-hard-lg overflow-hidden cursor-hover group"
-                            data-yt="uxORgpxKnn0" data-yt-title="Agentic AI - Network Operations Monitoring">
-                            <img src="https://i.ytimg.com/vi/uxORgpxKnn0/maxresdefault.jpg"
-                                onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/uxORgpxKnn0/hqdefault.jpg';"
-                                alt="Agentic AI - Network Operations Monitoring demo by Bhargav Petla"
-                                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" loading="lazy">
-                            <button class="yt-play w-16 h-16 bg-neo-red text-white border-2 border-black flex items-center justify-center text-3xl" aria-label="Play video">
-                                <i class="ri-play-fill"></i>
-                            </button>
-                            <span class="absolute bottom-2 left-2 bg-black/80 text-neo-green font-mono text-[10px] px-2 py-1 border border-white/20">DEMO: AI-AUTOMATED NOC</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ============ EXPERIENCE TIMELINE ============ -->
     <section id="engagements" class="py-24 px-4 max-w-7xl mx-auto">
         <h2 class="text-5xl md:text-8xl font-black uppercase mb-12 tracking-tighter text-center">
@@ -1296,6 +1267,92 @@
         </div>
     </section>
 
+    <!-- ============ THE BOOK ============ -->
+    <section id="book" class="py-24 px-4 border-y-4 border-black bg-neo-black text-white relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10" style="background-image: linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="absolute top-10 right-16 text-9xl opacity-5 font-black select-none pointer-events-none">FIVE</div>
+
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="flex flex-wrap items-center gap-3 mb-4 reveal">
+                <span class="bg-neo-purple text-white px-3 py-1 font-mono text-xs font-bold border border-white/20 uppercase tracking-widest">Published Author</span>
+                <span class="bg-white/5 border border-white/10 px-3 py-1 font-mono text-xs text-neo-yellow">FICTION / HORROR &bull; FIVE STORIES</span>
+            </div>
+            <h2 class="text-5xl md:text-8xl font-black uppercase mb-4 tracking-tighter reveal">
+                The<span class="text-neo-purple">_Book</span>
+            </h2>
+            <p class="font-mono text-gray-400 mb-16 max-w-2xl reveal">// Because the best strategists are also the best storytellers.</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- 3D Book -->
+                <div class="reveal flex justify-center py-12">
+                    <a href="https://store.pothi.com/book/bhargav-petla-unknown/" target="_blank" rel="noopener" class="book-wrap cursor-hover" title="Hover to open — click to buy" aria-label="Buy UNKNOWN on Pothi">
+                        <div class="book-outer">
+                            <!-- Front cover -->
+                            <div class="book-face book-front">
+                                <img src="Assets/images/book_cover_front.png" alt="UNKNOWN book cover" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                            <!-- Spine -->
+                            <div class="book-face book-spine">
+                                <img src="Assets/images/book_cover_spine.png" alt="" class="w-full h-full object-cover" loading="lazy">
+                            </div>
+                            <!-- Back cover (shown when book flips to ~180°) -->
+                            <div class="book-face book-back">
+                                <img src="Assets/images/book_cover_back.png" alt="UNKNOWN back cover"
+                                    onerror="this.style.display='none'"
+                                    class="w-full h-full object-cover" loading="lazy">
+                                <div class="absolute inset-0 bg-[#0a0a14] flex flex-col justify-between p-5" style="opacity:0.92">
+                                    <p class="font-mono text-[10px] text-gray-500 italic leading-relaxed">
+                                        "A boy befriends a girl online who should not exist. A girl in a locked room learns she was never alone inside her own body. The one who gathered these accounts goes hunting the thing that links them, only to find the map was drawn in his own hand."
+                                    </p>
+                                    <div>
+                                        <p class="font-mono text-[9px] text-neo-purple uppercase tracking-widest mb-1">Bhargav Petla &bull; Fiction / Horror</p>
+                                        <p class="font-mono text-[8px] text-gray-700">store.pothi.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Page stack (right edge) -->
+                            <div class="book-face book-pages"></div>
+                            <!-- Page-flip leaf -->
+                            <div class="book-page-flip">
+                                <div class="flip-front"></div>
+                                <div class="flip-back"></div>
+                            </div>
+                        </div>
+                    </a>
+                    <p class="text-center font-mono text-[10px] text-gray-600 mt-4 w-full">hover to open &bull; click to buy</p>
+                </div>
+
+                <!-- Book Info -->
+                <div class="reveal space-y-6">
+                    <div>
+                        <h3 class="text-4xl md:text-6xl font-black uppercase tracking-tighter text-white mb-2">UNKNOWN</h3>
+                        <p class="font-mono text-neo-purple text-sm font-bold uppercase tracking-widest">and other stories from the quiet hours &bull; based on true events</p>
+                    </div>
+                    <p class="font-mono text-gray-300 leading-relaxed text-lg">
+                        Five descents into the oldest and most human horror there is &mdash; what the dark does to a mind that has been left alone too long. Written in the long silence of the pandemic, one story at a time, as messages thrown into the dark to see if anyone was still there.
+                    </p>
+                    <blockquote class="border-l-4 border-neo-purple pl-4 font-mono text-gray-400 italic">
+                        "Five stories. One voice. It has been waiting for you to be alone."
+                    </blockquote>
+                    <div class="flex flex-wrap gap-2 font-mono text-xs">
+                        <span class="bg-white/5 border border-white/10 px-3 py-1">Psychological Horror</span>
+                        <span class="bg-white/5 border border-white/10 px-3 py-1">Based on True Events</span>
+                        <span class="bg-white/5 border border-white/10 px-3 py-1">Pandemic Writing</span>
+                        <span class="bg-white/5 border border-white/10 px-3 py-1">Debut Collection</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <a href="https://store.pothi.com/book/bhargav-petla-unknown/" target="_blank" rel="noopener"
+                            class="inline-flex items-center justify-center gap-2 bg-neo-purple text-white border-2 border-white/20 px-8 py-4 font-bold shadow-hard hover:bg-white hover:text-neo-black hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-hover">
+                            <i class="ri-book-open-line text-xl"></i> GET THE BOOK
+                        </a>
+                    </div>
+                    <p class="font-mono text-xs text-gray-600 border-t border-white/10 pt-4">
+                        // Strategy by day, storytelling by night. The same skills that run enterprise AI programs &mdash; clarity, structure, narrative &mdash; built this book.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- ============ CONTACT ============ -->
     <section id="contact" class="py-24 px-4 max-w-5xl mx-auto">
         <div class="bg-white border-4 border-black shadow-hard-xl p-8 md:p-12 relative reveal mt-12">
