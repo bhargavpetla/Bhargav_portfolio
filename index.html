@@ -197,100 +197,143 @@
         }
         .rec-dot { animation: rec-blink 1.2s linear infinite; }
 
-        /* ── 3D Book ── */
+        /* ── 3D Book ──
+           Geometry: 220x320 cover, 36px deep (z -18..+18).
+           Hover choreography (5s): cover swings open → two leaves flip →
+           cover closes → whole book spins 180° to show back cover → returns. */
         .book-wrap {
-            perspective: 1400px;
+            perspective: 1600px;
             display: inline-block;
         }
-        /* Outer shell: idle float, hover = slow 360 spin to reveal back then return */
         .book-outer {
             position: relative;
             width: 220px;
             height: 320px;
             transform-style: preserve-3d;
             animation: book-idle 6s ease-in-out infinite;
-            transition: none;
             cursor: pointer;
         }
         @keyframes book-idle {
             0%,100% { transform: rotateY(-28deg) rotateX(6deg) translateY(0px); }
-            50%      { transform: rotateY(-22deg) rotateX(4deg) translateY(-14px); }
+            50%      { transform: rotateY(-20deg) rotateX(4deg) translateY(-14px); }
         }
-        /* On hover: open the cover (rotate around left edge) */
         .book-wrap:hover .book-outer {
-            animation: book-open 3.2s ease-in-out forwards;
+            animation: book-seq 5s ease-in-out forwards;
         }
-        @keyframes book-open {
+        @keyframes book-seq {
             0%   { transform: rotateY(-28deg) rotateX(6deg); }
-            30%  { transform: rotateY(20deg) rotateX(3deg); }
-            55%  { transform: rotateY(180deg) rotateX(0deg); }   /* full back reveal */
-            80%  { transform: rotateY(180deg) rotateX(0deg); }
-            100% { transform: rotateY(-28deg) rotateX(6deg); }   /* return */
+            12%  { transform: rotateY(-8deg) rotateX(2deg); }   /* face viewer while pages flip */
+            55%  { transform: rotateY(-8deg) rotateX(2deg); }
+            72%  { transform: rotateY(-188deg) rotateX(0deg); } /* spin to back cover */
+            88%  { transform: rotateY(-188deg) rotateX(0deg); } /* hold the back */
+            100% { transform: rotateY(-28deg) rotateX(6deg); }  /* close & return */
         }
 
-        /* Faces */
-        .book-face { position: absolute; backface-visibility: hidden; }
+        .book-face { position: absolute; top: 0; left: 0; }
 
-        .book-front {
-            width: 220px; height: 320px;
-            transform: translateZ(18px);
-            overflow: hidden;
-            box-shadow: 8px 8px 40px rgba(0,0,0,0.9), 0 0 0 2px rgba(168,85,247,0.4);
-        }
-        .book-spine {
-            width: 36px; height: 320px;
-            left: -18px;
-            transform: rotateY(-90deg) translateZ(18px);
-            background: #111122;
-            overflow: hidden;
-        }
-        .book-back {
-            width: 220px; height: 320px;
-            /* faces away from viewer by default; shown when book flips ~180° */
-            transform: translateZ(-18px) rotateY(180deg);
-            backface-visibility: visible;   /* we want it visible from behind */
-            overflow: hidden;
-        }
-        .book-pages {
-            width: 32px; height: 314px;
-            top: 3px; right: -16px;
-            transform: rotateY(90deg) translateZ(110px);
-            background: repeating-linear-gradient(
-                to bottom,
-                #f5f1e8 0px, #ede9df 1px, #f5f1e8 2px
-            );
-            box-shadow: inset -4px 0 10px rgba(0,0,0,0.35);
-        }
-
-        /* Page-flip overlay: a single leaf that animates across the front */
-        .book-page-flip {
-            position: absolute;
+        /* Hinged front cover: two faces, swings on the spine edge */
+        .book-cover {
             width: 220px; height: 320px;
             transform-origin: left center;
-            transform: translateZ(19px) rotateY(0deg);
+            transform: translateZ(18px);
+            transform-style: preserve-3d;
+            z-index: 6;
+        }
+        .book-wrap:hover .book-cover { animation: cover-seq 5s ease-in-out forwards; }
+        @keyframes cover-seq {
+            0%   { transform: translateZ(18px) rotateY(0deg); }
+            10%  { transform: translateZ(18px) rotateY(0deg); }
+            24%  { transform: translateZ(18px) rotateY(-150deg); } /* open */
+            46%  { transform: translateZ(18px) rotateY(-150deg); } /* stay open */
+            58%  { transform: translateZ(18px) rotateY(0deg); }    /* close before spin */
+            100% { transform: translateZ(18px) rotateY(0deg); }
+        }
+        .book-cover .cover-face {
+            position: absolute; inset: 0;
+            backface-visibility: hidden;
+            overflow: hidden;
+        }
+        .book-cover .cover-out {
+            box-shadow: 8px 8px 40px rgba(0,0,0,0.9), 0 0 0 2px rgba(168,85,247,0.4);
+        }
+        .book-cover .cover-in {
+            transform: rotateY(180deg);
+            background: #15152a;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        /* Flipping leaves (behind the cover) */
+        .book-leaf {
+            position: absolute; top: 4px; left: 2px;
+            width: 214px; height: 312px;
+            transform-origin: left center;
             transform-style: preserve-3d;
             pointer-events: none;
         }
-        .book-page-flip .flip-front {
+        .book-leaf .leaf-a, .book-leaf .leaf-b {
             position: absolute; inset: 0;
-            background: linear-gradient(to right, #ede9df, #f5f1e8);
             backface-visibility: hidden;
+            background: linear-gradient(to right, #e9e5da 0%, #f6f2e9 12%, #f6f2e9 100%);
         }
-        .book-page-flip .flip-back {
-            position: absolute; inset: 0;
-            background: linear-gradient(to left, #e8e4dc, #f0ece4);
-            transform: rotateY(180deg);
-            backface-visibility: hidden;
+        .book-leaf .leaf-b { transform: rotateY(180deg); background: linear-gradient(to left, #e4e0d5 0%, #f2eee5 12%, #f2eee5 100%); }
+        .book-leaf-1 { transform: translateZ(16px); z-index: 5; }
+        .book-leaf-2 { transform: translateZ(14px); z-index: 4; }
+        .book-wrap:hover .book-leaf-1 { animation: leaf1-seq 5s ease-in-out forwards; }
+        .book-wrap:hover .book-leaf-2 { animation: leaf2-seq 5s ease-in-out forwards; }
+        @keyframes leaf1-seq {
+            0%, 22%  { transform: translateZ(16px) rotateY(0deg); }
+            36%      { transform: translateZ(16px) rotateY(-160deg); }
+            48%      { transform: translateZ(16px) rotateY(-160deg); }
+            58%, 100%{ transform: translateZ(16px) rotateY(0deg); }
         }
-        .book-wrap:hover .book-page-flip {
-            animation: page-flip 3.2s ease-in-out forwards;
+        @keyframes leaf2-seq {
+            0%, 30%  { transform: translateZ(14px) rotateY(0deg); }
+            44%      { transform: translateZ(14px) rotateY(-150deg); }
+            50%      { transform: translateZ(14px) rotateY(-150deg); }
+            58%, 100%{ transform: translateZ(14px) rotateY(0deg); }
         }
-        @keyframes page-flip {
-            0%   { transform: translateZ(19px) rotateY(0deg);   }
-            18%  { transform: translateZ(19px) rotateY(-90deg);  }
-            36%  { transform: translateZ(19px) rotateY(-178deg); }
-            80%  { transform: translateZ(19px) rotateY(-178deg); }
-            100% { transform: translateZ(19px) rotateY(0deg);   }
+
+        /* Page revealed under the leaves */
+        .book-page-base {
+            width: 214px; height: 312px;
+            top: 4px; left: 2px;
+            transform: translateZ(12px);
+            background: #f6f2e9;
+            z-index: 3;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+
+        /* Spine (left edge): centered at x=0, rotated into z-plane */
+        .book-spine {
+            width: 36px; height: 320px;
+            left: -18px;
+            transform: rotateY(-90deg);
+            background: #111122;
+            overflow: hidden;
+        }
+        /* Page block (right edge): centered at x=220 */
+        .book-pages {
+            width: 36px; height: 312px;
+            top: 4px; right: -18px; left: auto;
+            transform: rotateY(90deg);
+            background: repeating-linear-gradient(
+                to bottom,
+                #f5f1e8 0px, #e5e1d6 1.5px, #f5f1e8 3px
+            );
+            box-shadow: inset -4px 0 10px rgba(0,0,0,0.35);
+        }
+        /* Back cover: visible when the book spins ~180° */
+        .book-back {
+            width: 220px; height: 320px;
+            transform: rotateY(180deg) translateZ(18px);
+            overflow: hidden;
+            box-shadow: 8px 8px 40px rgba(0,0,0,0.9), 0 0 0 2px rgba(168,85,247,0.4);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .book-outer, .book-cover, .book-leaf-1, .book-leaf-2 { animation: none !important; }
+            .book-outer { transform: rotateY(-28deg) rotateX(6deg); }
         }
     </style>
 </head>
@@ -1287,35 +1330,33 @@
                 <div class="reveal flex justify-center py-12">
                     <a href="https://store.pothi.com/book/bhargav-petla-unknown/" target="_blank" rel="noopener" class="book-wrap cursor-hover" title="Hover to open — click to buy" aria-label="Buy UNKNOWN on Pothi">
                         <div class="book-outer">
-                            <!-- Front cover -->
-                            <div class="book-face book-front">
-                                <img src="Assets/images/book_cover_front.png" alt="UNKNOWN book cover" class="w-full h-full object-cover" loading="lazy">
+                            <!-- Hinged front cover -->
+                            <div class="book-face book-cover">
+                                <div class="cover-face cover-out">
+                                    <img src="Assets/images/book_cover_front.png" alt="UNKNOWN book cover" class="w-full h-full object-cover">
+                                </div>
+                                <div class="cover-face cover-in">
+                                    <span class="font-mono text-[10px] text-gray-500 italic px-6 text-center">for the ones who read past midnight</span>
+                                </div>
+                            </div>
+                            <!-- Flipping leaves -->
+                            <div class="book-leaf book-leaf-1"><div class="leaf-a"></div><div class="leaf-b"></div></div>
+                            <div class="book-leaf book-leaf-2"><div class="leaf-a"></div><div class="leaf-b"></div></div>
+                            <!-- Page revealed under the leaves -->
+                            <div class="book-face book-page-base">
+                                <p class="font-mono text-[11px] text-gray-700 italic text-center leading-relaxed">
+                                    "Five stories.<br>One voice.<br><br>It has been waiting<br>for you to be alone."
+                                </p>
                             </div>
                             <!-- Spine -->
                             <div class="book-face book-spine">
-                                <img src="Assets/images/book_cover_spine.png" alt="" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                            <!-- Back cover (shown when book flips to ~180°) -->
-                            <div class="book-face book-back">
-                                <img src="Assets/images/book_cover_back.png" alt="UNKNOWN back cover"
-                                    onerror="this.style.display='none'"
-                                    class="w-full h-full object-cover" loading="lazy">
-                                <div class="absolute inset-0 bg-[#0a0a14] flex flex-col justify-between p-5" style="opacity:0.92">
-                                    <p class="font-mono text-[10px] text-gray-500 italic leading-relaxed">
-                                        "A boy befriends a girl online who should not exist. A girl in a locked room learns she was never alone inside her own body. The one who gathered these accounts goes hunting the thing that links them, only to find the map was drawn in his own hand."
-                                    </p>
-                                    <div>
-                                        <p class="font-mono text-[9px] text-neo-purple uppercase tracking-widest mb-1">Bhargav Petla &bull; Fiction / Horror</p>
-                                        <p class="font-mono text-[8px] text-gray-700">store.pothi.com</p>
-                                    </div>
-                                </div>
+                                <img src="Assets/images/book_cover_spine.png" alt="" class="w-full h-full object-cover">
                             </div>
                             <!-- Page stack (right edge) -->
                             <div class="book-face book-pages"></div>
-                            <!-- Page-flip leaf -->
-                            <div class="book-page-flip">
-                                <div class="flip-front"></div>
-                                <div class="flip-back"></div>
+                            <!-- Back cover (shown when book spins) -->
+                            <div class="book-face book-back">
+                                <img src="Assets/images/book_cover_back.png" alt="UNKNOWN back cover" class="w-full h-full object-cover">
                             </div>
                         </div>
                     </a>
